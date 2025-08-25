@@ -1,0 +1,80 @@
+.signup-container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 25px 35px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    font-family: "Segoe UI", sans-serif;
+}
+
+.tab-buttons {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.tab-buttons button {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+}
+.tab-buttons button:hover {
+    background: #0056b3;
+}
+
+.signup-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.form-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+input[type="file"] {
+    padding: 4px;
+    border: none;
+}
+
+button[type="submit"] {
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+    background: #28a745;
+    border: none;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+button[type="submit"]:hover {
+    background: #1e7e34;
+}

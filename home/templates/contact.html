@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Contact Us</h2>
+<p>Have questions? Reach out to us anytime!</p>
+<ul>
+  <li>📍 Address: Sheriguda, Behind CK Convention Hall, Nagarjuna Sagar Road, Ibrahimpatnam, Hyderabad</li>
+  <li>📞 Phone: +91 9000067430</li>
+  <li>📧 Email: infosaikrishna@gmail.com</li>
+</ul>
+
+<form id="contactForm">
+  <label>Your Name:</label>
+  <input type="text" id="name" placeholder="Enter your name" required style="height: 30px; width: 350px;"><br><br>
+
+  <label>Your Message:</label><br><br>
+  <textarea id="message" placeholder="Type your query"  maxlength="150"  style="height: 70px; width: 350px;"></textarea><br><br>
+
+  <button type="submit">Send</button>
+</form>
+
+<script>
+  document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let name = document.getElementById("name").value;
+    let message = document.getElementById("message").value;
+
+    // Encode the message to be URL safe
+    let finalMessage = `Hello, my name is ${name}. My query is: ${message}`;
+    let whatsappUrl = "https://wa.me/917337381618?text=" + encodeURIComponent(finalMessage);
+
+    // Open WhatsApp chat
+    window.open(whatsappUrl, "_blank");
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="max-width:900px; margin:30px auto; padding:20px; background:#fff; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+
+    <h2 style="color:#2c3e50; margin-bottom:20px; text-align:center;">👨‍🎓 Student List</h2>
+
+    <table style="width:100%; border-collapse:collapse; text-align:left;">
+        <thead>
+            <tr style="background:#2980b9; color:#fff;">
+                <th style="padding:12px;">ID</th>
+                <th style="padding:12px;">Full Name</th>
+                <th style="padding:12px;">Father Name</th>
+                <th style="padding:12px;">Phone</th>
+                <th style="padding:12px; text-align:center;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr style="border-bottom:1px solid #ddd;">
+                <td style="padding:12px;">{{ student.id }}</td>
+                <td style="padding:12px;">{{ student.fullname }}</td>
+                <td style="padding:12px;">{{ student.fathername }}</td>
+                <td style="padding:12px;">{{ student.studentphone }}</td>  <!-- ✅ Correct field -->
+                <td style="padding:12px; text-align:center;">
+                    <a href="{% url 'admin_student_payments' student.id %}" 
+                       style="background:#27ae60; color:white; padding:6px 12px; border-radius:6px; text-decoration:none; font-size:14px;">
+                        💰 View Payments
+                    </a>
+                    <a href="{% url 'manage_payment' student.id %}" 
+                       style="background:#e67e22; color:white; padding:6px 12px; border-radius:6px; text-decoration:none; font-size:14px;">
+                        ➕ Add Payment
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="padding:15px; color:#7f8c8d; text-align:center;">No students found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+
+</div>
+{% endblock %}

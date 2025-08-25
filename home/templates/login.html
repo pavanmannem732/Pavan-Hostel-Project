@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home/auth.css' %}">
+<style>
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+.form-box {
+    width: 350px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0px 4px 20px rgba(0,0,0,0.1);
+}
+.tab-buttons {
+    display: flex;
+    margin-bottom: 15px;
+}
+.tab-buttons button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: #eee;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 8px 8px 0 0;
+}
+.tab-buttons button.active {
+    background: #007bff;
+    color: #fff;
+}
+.hidden { display: none; }
+.error-msg {
+    color:red;
+    margin-bottom:10px;
+    text-align:center;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input[type="password"],
+.password-wrapper input[type="text"] {
+    width: 100%;
+    padding-right: 35px; /* space for the eye icon */
+    box-sizing: border-box;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #555;
+    user-select: none;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-wrapper">
+    <div class="form-box">
+        <div class="tab-buttons">
+            <button id="studentTab" class="active">Student Login</button>
+            <button id="adminTab">Admin Login</button>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="error-msg">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Student Login -->
+        <form method="POST" action="{% url 'login' %}" id="studentForm">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="student_username">Name or Email</label>
+                <input list="recentUsers" id="student_username" name="username" placeholder="Enter your name or email" required>
+                <datalist id="recentUsers"></datalist>
+            </div>
+            <div class="form-group password-wrapper">
+    <label for="student_password">Password</label>
+    <input type="password" id="student_password" name="password" placeholder="Enter your password" required>
+    <span class="toggle-password" onclick="togglePassword('student_password')">&#128065;</span>
+</div>
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- Admin Login       admin_student_payments -->
+        <form method="POST" action="{% url 'admin_login' %}" id="adminForm" class="hidden">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="admin_username">Admin Username</label>
+                <input type="text" id="admin_username" name="username" placeholder="Enter admin username" required>
+            </div>
+           <div class="form-group password-wrapper">
+    <label for="admin_password">Password</label>
+    <input type="password" id="admin_password" name="password" placeholder="Enter admin password" required>
+    <span class="toggle-password" onclick="togglePassword('admin_password')">&#128065;</span>
+</div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-left">
+            <h3>Contact Us</h3>
+            <p>📍 SH19, Sheriguda, Ismailshapampu, Telangana - 501510</p>
+            <p>📧 info@saikrishnahostel.com</p>
+            <p>📞 +91 9000067430</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2025 Sai Krishna Hostel. All Rights Reserved. Website Designed by <strong>Pavan Mannem</strong></p>
+    </div>
+</footer>
+
+<script>
+
+
+
+function togglePassword(fieldId) {
+    const input = document.getElementById(fieldId);
+    if (input.type === "password") {
+        input.type = "text";
+    } else {
+        input.type = "password";
+    }
+}
+
+// Tabs toggle
+document.getElementById("studentTab").addEventListener("click", () => {
+    document.getElementById("studentForm").classList.remove("hidden");
+    document.getElementById("adminForm").classList.add("hidden");
+    document.getElementById("studentTab").classList.add("active");
+    document.getElementById("adminTab").classList.remove("active");
+});
+
+document.getElementById("adminTab").addEventListener("click", () => {
+    document.getElementById("adminForm").classList.remove("hidden");
+    document.getElementById("studentForm").classList.add("hidden");
+    document.getElementById("adminTab").classList.add("active");
+    document.getElementById("studentTab").classList.remove("active");
+});
+
+// Save last student usernames
+document.addEventListener('DOMContentLoaded', () => {
+    const recentUsers = JSON.parse(localStorage.getItem('recentUsers') || '[]');
+    const datalist = document.getElementById('recentUsers');
+    recentUsers.forEach(user => {
+        const option = document.createElement('option');
+        option.value = user;
+        datalist.appendChild(option);
+    });
+
+    document.getElementById('studentForm').addEventListener('submit', () => {
+        const username = document.getElementById('student_username').value.trim();
+        if (username) {
+            let users = JSON.parse(localStorage.getItem('recentUsers') || '[]');
+            if (!users.includes(username)) {
+                users.unshift(username);
+                if (users.length > 5) users.pop();
+                localStorage.setItem('recentUsers', JSON.stringify(users));
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

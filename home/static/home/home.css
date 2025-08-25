@@ -1,0 +1,59 @@
+.hero-banner {
+    background: url("https://images.unsplash.com/photo-1505691938895-1758d7feb511")
+                no-repeat center center/cover;
+    height: 70vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-banner .overlay {
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    text-align: center;
+    padding: 30px;
+    border-radius: 12px;
+}
+
+.hero-banner h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.hero-banner p {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.btn-book {
+    padding: 12px 24px;
+    background: #ff9d00;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.btn-book:hover {
+    background: #b30068;
+}
+
+.features {
+    display: flex;
+    justify-content: space-around;
+    padding: 40px;
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}

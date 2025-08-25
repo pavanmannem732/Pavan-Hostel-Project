@@ -1,0 +1,75 @@
+/* Full banner background */
+.banner {
+    background: linear-gradient(135deg, #1e3c72, #2a5298); /* Modern Blue Gradient */
+    color: white;
+    padding: 25px 0;
+    text-align: center;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* Scrolling marquee */
+.banner-scroll {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* Title */
+.banner-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 10px auto;
+    padding: 15px;
+    width: fit-content;
+    background: #f4b400;   /* Gold highlight */
+    color: #1e3c72;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Navigation container */
+.banner-nav {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    align-items: center;
+}
+
+/* Links */
+.nav-link {
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    transition: color 0.3s;
+}
+.nav-link:hover {
+    color: #f4b400;
+}
+
+/* Dropdown */
+.nav-dropdown {
+    height: 42px;
+    padding: 6px 12px;
+    border: 1.5px solid #fff;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #2a5298;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.nav-dropdown:hover {
+    border-color: #f4b400;
+}
+
+/* Right text */
+.banner-right {
+    font-size: 18px;
+    font-weight: 600;
+    color: #00c853;
+}

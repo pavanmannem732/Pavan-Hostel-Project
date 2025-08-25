@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  .plans {
+    text-align: center;
+    padding: 50px 20px;
+  }
+  .plan-buttons {
+    margin: 20px 0;
+  }
+  .plan-buttons button {
+    margin: 10px;
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    transition: 0.3s;
+  }
+  .plan-buttons button:hover {
+    background-color: #0056b3;
+  }
+  .plan-description {
+    display: none;
+    margin-top: 25px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  .plan-description h3 { color: #333; }
+  .highlight {
+    font-size: 20px;
+    font-weight: bold;
+    color: #007bff;
+    margin-top: 15px;
+  }
+  .book-btn {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 10px 18px;
+    background: #28a745;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .book-btn:hover { background: #1e7e34; }
+</style>
+
+<div class="plans">
+  <h2>Choose Your Plan</h2>
+  <div class="plan-buttons">
+    <button onclick="showPlan('daily')">Daily (₹240)</button>
+    <button onclick="showPlan('monthly')">Monthly (₹5500)</button>
+    <button onclick="showPlan('yearly')">Yearly (₹55000)</button>
+  </div>
+
+  <div id="daily" class="plan-description">
+    <h3>Daily Plan</h3>
+    <p>Stay comfortably at Sai Krishna Hostel with all facilities included. Enjoy homely food, Wi-Fi, mineral water, and a peaceful environment.</p>
+    <p class="highlight">Price: ₹240 per day</p>
+    <a href="{% url 'book_now' 'daily' %}" class="book-btn">Book Daily Plan</a>
+  </div>
+
+  <div id="monthly" class="plan-description">
+    <h3>Monthly Plan</h3>
+    <p>Our monthly package is ideal for students and professionals. Includes unlimited food, 24/7 Wi-Fi, mineral water, weekly non-veg meals, and spacious rooms.</p>
+    <p class="highlight">Price: ₹5500 per month</p>
+    <a href="{% url 'book_now' 'monthly' %}" class="book-btn">Book Monthly Plan</a>
+  </div>
+
+  <div id="yearly" class="plan-description">
+    <h3>Yearly Plan</h3>
+    <p>The best value package! Get all facilities including homely food, Wi-Fi, weekly non-veg, spacious rooms, and a peaceful environment for the whole year.</p>
+    <p class="highlight">Price: ₹55,000 per year</p>
+    <a href="{% url 'book_now' 'yearly' %}" class="book-btn">Book Yearly Plan</a>
+  </div>
+</div>
+
+<script>
+  function showPlan(planId) {
+    document.querySelectorAll('.plan-description').forEach(d => d.style.display = 'none');
+    const el = document.getElementById(planId);
+    if (el) el.style.display = 'block';
+  }
+  // Show Monthly by default
+  document.addEventListener('DOMContentLoaded', () => showPlan('monthly'));
+</script>
+{% endblock %}

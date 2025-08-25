@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="text-align:center; padding:40px;">
+  <h2>{{ plan|capfirst }} Plan Payment</h2>
+  <p>Payee: <b>{{ payee_name }}</b></p>
+  <p>UPI ID: <b>{{ upi_id }}</b></p>
+
+  <p>Amount: 
+    {% if editable %}
+      <input type="number" id="amount" value="{{ amount }}" min="1" style="padding:5px;"/>
+      <button onclick="updateQR()">Update QR</button>
+    {% else %}
+      ₹{{ amount }} (fixed)
+    {% endif %}
+  </p>
+
+  <h3>Scan & Pay</h3>
+  <img id="qrImage" src="data:image/png;base64,{{ qr_code }}" alt="QR Code" style="width:250px; height:250px;"/>
+
+  <p style="margin-top:15px;">Scan using any UPI app (GPay, PhonePe, Paytm, etc.)</p>
+
+  <p><a href="{{ upi_link }}" style="color:blue; text-decoration:underline;">Or click here to pay directly</a></p>
+</div>
+
+<script>
+  function updateQR() {
+    let newAmount = document.getElementById("amount").value;
+    if (!newAmount || newAmount <= 0) {
+      alert("Enter valid amount");
+      return;
+    }
+    let upiId = "{{ upi_id }}";
+    let payeeName = encodeURIComponent("{{ payee_name }}");
+    let note = encodeURIComponent("{{ note }}");
+
+    let newLink = `upi://pay?pa=${upiId}&pn=${payeeName}&am=${newAmount}&cu=INR&tn=${note}`;
+
+    // Update direct link
+    document.querySelector("a").href = newLink;
+
+    // Call backend to generate QR? (Optional advanced)
+    // For now, reload with JS QR generator
+    document.getElementById("qrImage").src =
+      "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" + encodeURIComponent(newLink);
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Hi, {{ student.fullname }} 👋</h2>
+<p>Your monthly payment history</p>
+
+<!-- Flash messages -->
+<div id="flash-messages">
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert" style="padding:10px; margin:10px 0; border-radius:8px; background:#f4f4f4;">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+</div>
+
+<!-- Add Payment Button -->
+<button id="addPaymentBtn" style="background:#007bff; color:#fff; border:none; padding:8px 16px; border-radius:6px; cursor:pointer;">
+  + Add Payment
+</button>
+
+<!-- Payment Table -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<table id="paymentsTable" class="display" style="width:100%; margin-top:15px;">
+  <thead>
+    <tr>
+      <th>Month</th>
+      <th>Amount (₹)</th>
+      <th>Date Paid</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in payments %}
+    <tr id="payment-{{ p.id }}">
+      <td>{{ p.month }}</td>
+      <td>{{ p.amount }}</td>
+      <td>{{ p.date_paid }}</td>
+      <td>
+        <button class="editBtn" 
+                data-id="{{ p.id }}" 
+                data-month="{{ p.month }}" 
+                data-amount="{{ p.amount }}" 
+                data-date="{{ p.date_paid }}" 
+                style="background:#28a745; color:#fff; border:none; padding:4px 10px; border-radius:4px; cursor:pointer;">
+          Edit
+        </button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Show Remaining Due -->
+<p id="dueAmount" style="margin-top:10px; font-weight:bold;">
+    Due Amount: ₹{{ due }}
+</p>
+
+<!-- Add/Edit Modal -->
+<div id="paymentModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
+  background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+  <div style="background:#fff; padding:20px; border-radius:10px; width:400px;">
+    <h3 id="modalTitle">Add Payment</h3>
+    <form id="paymentForm" method="post" action="{% url 'manage_payment' student.id %}">
+      {% csrf_token %}
+      <input type="hidden" name="payment_id" id="payment_id">
+
+      <label>Month</label>
+      <input type="text" name="month" id="month" class="form-control" required><br>
+
+      <label>Amount (₹)</label>
+      <input type="number" name="amount" id="amount" class="form-control" required><br>
+
+      <label>Date Paid</label>
+      <input type="date" name="date_paid" id="date_paid" class="form-control" required><br>
+
+      <button type="submit" style="background:#007bff; color:#fff; border:none; padding:8px 16px; border-radius:6px;">
+        Save
+      </button>
+      <button type="button" id="closeModal" style="margin-left:10px; background:#ccc; border:none; padding:8px 16px; border-radius:6px;">
+        Cancel
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+$(function(){
+    var table = $('#paymentsTable').DataTable({ pageLength: 10, order: [[2, "desc"]] });
+
+    // Open modal for add
+    $("#addPaymentBtn").on("click", function(){
+        $("#modalTitle").text("Add Payment");
+        $("#paymentForm")[0].reset();
+        $("#payment_id").val("");
+        $("#paymentModal").css("display", "flex");
+    });
+
+    // Open modal for edit
+    $(document).on("click", ".editBtn", function(){
+        $("#modalTitle").text("Edit Payment");
+        $("#payment_id").val($(this).data("id"));
+        $("#month").val($(this).data("month"));
+        $("#amount").val($(this).data("amount"));
+        $("#date_paid").val($(this).data("date"));
+        $("#paymentModal").css("display", "flex");
+    });
+
+    // Close modal
+    $("#closeModal").on("click", function(){
+        $("#paymentForm")[0].reset();
+        $("#payment_id").val("");
+        $("#paymentModal").hide();
+    });
+
+    // AJAX form submit
+    $("#paymentForm").on("submit", function(e){
+        e.preventDefault();
+        var form = $(this);
+        $.ajax({
+            url: form.attr("action"),
+            type: "POST",
+            data: form.serialize(),
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            success: function(resp){
+                if(!resp.id) return;
+
+                var rowId = "payment-" + resp.id;
+                var row = $("#" + rowId);
+                var actionsBtn = `<button class="editBtn" data-id="${resp.id}" data-month="${resp.month}" data-amount="${resp.amount}" data-date="${resp.date_paid}" style="background:#28a745; color:#fff; border:none; padding:4px 10px; border-radius:4px; cursor:pointer;">Edit</button>`;
+
+                if(row.length){
+                    table.row(row).data([resp.month, resp.amount, resp.date_paid, actionsBtn]).draw(false);
+                } else {
+                    var newRowNode = table.row.add([resp.month, resp.amount, resp.date_paid, actionsBtn]).draw(false).node();
+                    $(newRowNode).attr("id", rowId);
+                }
+
+                // Reset and hide modal
+                $("#paymentForm")[0].reset();
+                $("#payment_id").val("");
+                $("#paymentModal").hide();
+
+                // Flash message
+                $("#flash-messages").html('<div class="alert" style="padding:10px; margin:10px 0; border-radius:8px; background:#d4edda;">Payment saved successfully!</div>');
+                setTimeout(()=> $("#flash-messages").html(''), 3000);
+
+                // Update due amount dynamically
+                if(resp.due !== undefined){
+                    $("#dueAmount").text("Due Amount: ₹" + resp.due.toFixed(2));
+                }
+            },
+            error: function(xhr){
+                let msg = "Error saving payment. Please try again.";
+                if(xhr.responseJSON && xhr.responseJSON.error){
+                    msg = xhr.responseJSON.error;
+                }
+                alert(msg);
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

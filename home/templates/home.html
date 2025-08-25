@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+.hero-banner {
+    background: url("../static/home/image/sai\ krishna\ hostel\ pic.jpg")
+                no-repeat center center/cover;
+    height: 70vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-banner .overlay {
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    text-align: center;
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 600px;
+}
+
+.hero-banner h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.hero-banner p {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.btn-book {
+    padding: 12px 24px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+.btn-book:hover { background: #0056b3; }
+
+/* Features Section */
+.features {
+    display: flex;
+    justify-content: space-around;
+    padding: 40px;
+    gap: 20px;
+    flex-wrap: wrap; /* ✅ Makes it responsive */
+}
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 200px;
+}
+
+/* Footer Section */
+footer {
+    background: #111;
+    color: #ddd;
+    padding: 40px 20px;
+    margin-top: 40px;
+}
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+.footer-left, .footer-right {
+    flex: 1;
+    min-width: 250px;
+}
+.footer-left h3, .footer-right h3 {
+    margin-bottom: 15px;
+    color: #fff;
+}
+.footer-right iframe {
+    width: 100%;
+    height: 200px;
+    border: none;
+    border-radius: 8px;
+}
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    border-top: 1px solid #333;
+    padding-top: 15px;
+    font-size: 14px;
+    color: #aaa;
+}
+</style>
+
+<div class="hero-banner">
+    <div class="overlay">
+        <h1>Welcome to Sai Krishna Hostel</h1>
+        <p>Comfortable Stay | Healthy Food | Peaceful Environment</p>
+        <a href="{% url 'booking' %}" class="btn-book">Book Now</a>
+    </div>
+</div>
+
+<div class="features">
+    <div class="card">🍲 Unlimited Homely Food</div>
+    <div class="card">💧 Mineral Water</div>
+    <div class="card">🍗 Weekly 5 Times Non-Veg</div>
+    <div class="card">🏠 Spacious Rooms</div>
+</div>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-left">
+            <h3>Contact Us</h3>
+            <p>📍 SH19, Sheriguda, Ismailshapampu, Telangana - 501510</p>
+            <p>📧 info@saikrishnahostel.com</p>
+            <p>📞 +91 9000067430</p>
+        </div>
+        <div class="footer-right">
+            <h3>Location</h3>
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3803.566053977596!2d78.6179663!3d17.2115166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcba769cf038e27%3A0x5754314860591dd4!2sSH19%2C%20Sheriguda%2C%20Ismailshapampu%2C%20Telangana%20501510!5e0!3m2!1sen!2sin!4v1700000000000"
+                allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2025 Sai Krishna Hostel. All Rights Reserved. Website Designed by <strong>Pavan Mannem</strong></p>
+    </div>
+</footer>
+{% endblock %}

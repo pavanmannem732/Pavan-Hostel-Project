@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'home/signup.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="signup-container">
+    
+    <!-- ✅ Display Django messages -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div 
+            class="alert 
+            {% if message.tags == 'error' %}alert-danger{% endif %}
+            {% if message.tags == 'success' %}alert-success{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="tab-buttons">
+        <button type="button" onclick="showForm('student')">Student Signup</button>
+        <button type="button" onclick="showForm('admin')">Admin Signup</button>
+    </div>
+
+    <!-- Student Signup -->
+    <form id="student-form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Student Signup</h2>
+
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" name="fullname" required>
+        </div>
+
+        <div class="form-group">
+            <label>Father's Name</label>
+            <input type="text" name="fathername" required>
+        </div>
+
+        <div class="form-group">
+            <label>Address</label>
+            <input type="text" name="address" required>
+        </div>
+
+        <div class="form-group">
+            <label>Aadhar Number</label>
+            <input type="text" name="aadhar" required>
+        </div>
+
+        <div class="form-group">
+            <label>College</label>
+            <input type="text" name="college" required>
+        </div>
+
+        <div class="form-group">
+            <label>Student Phone No.</label>
+            <input type="text" name="studentphone" required>
+        </div>
+
+        <div class="form-group">
+            <label>Father Phone No.</label>
+            <input type="text" name="fatherphone" required>
+        </div>
+
+        <div class="form-group">
+            <label>Joining Date</label>
+            <input type="date" name="joiningdate" required>
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+            <label>Upload Photo</label>
+            <input type="file" name="photo">
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" required>
+        </div>
+
+        <button type="submit">Sign Up</button>
+    </form>
+
+    <!-- Admin Signup -->
+    <form id="admin-form" method="post" style="display:none;">
+        {% csrf_token %}
+        <h2>Admin Signup</h2>
+
+        <div class="form-group">
+            <label>Admin Name</label>
+            <input type="text" name="adminname" required>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" required>
+        </div>
+
+        <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" name="confirmpassword" required>
+        </div>
+
+        <button type="submit">Create Admin</button>
+    </form>
+</div>
+<footer>
+    <div class="footer-container">
+        <div class="footer-left">
+            <h3>Contact Us</h3>
+            <p>📍 SH19, Sheriguda, Ismailshapampu, Telangana - 501510</p>
+            <p>📧 info@saikrishnahostel.com</p>
+            <p>📞 +91 9000067430</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2025 Sai Krishna Hostel. All Rights Reserved. Website Designed by <strong>Pavan Mannem</strong></p>
+    </div>
+</footer>
+
+<script>
+    function showForm(type) {
+        document.getElementById("student-form").style.display = (type === "student") ? "block" : "none";
+        document.getElementById("admin-form").style.display = (type === "admin") ? "block" : "none";
+    }
+
+// Function to save recent input for a field
+function saveRecentInput(fieldName) {
+    const input = document.querySelector(`input[name="${fieldName}"]`);
+    if (!input) return;
+
+    // Load recent values from localStorage
+    let recent = JSON.parse(localStorage.getItem(fieldName) || '[]');
+
+    // Add new value on blur
+    input.addEventListener('blur', () => {
+        const val = input.value.trim();
+        if (val && !recent.includes(val)) {
+            recent.unshift(val);       // add to start
+            if (recent.length > 5) recent.pop();  // max 5 entries
+            localStorage.setItem(fieldName, JSON.stringify(recent));
+        }
+    });
+
+    // Add datalist for suggestions
+    const datalistId = fieldName + "-list";
+    let datalist = document.createElement("datalist");
+    datalist.id = datalistId;
+    input.setAttribute("list", datalistId);
+    recent.forEach(v => {
+        let option = document.createElement("option");
+        option.value = v;
+        datalist.appendChild(option);
+    });
+    input.parentNode.appendChild(datalist);
+}
+
+// Apply suggestions to key fields
+['fullname', 'email', 'studentphone', 'adminname'].forEach(saveRecentInput);
+</script>
+{% endblock %}

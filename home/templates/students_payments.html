@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home/payments.css' %}"> 
+<style>
+  /* Inline CSS as backup */
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 700px;
+    margin: auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  }
+
+  h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 25px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9f9f9;
+    margin-bottom: 12px;
+    padding: 12px 18px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+
+  li:hover {
+    background: #eaf2fb;
+    transform: scale(1.01);
+  }
+
+  .payment-info {
+    font-size: 16px;
+    color: #34495e;
+  }
+
+  .btn {
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: #3498db;
+    color: white;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+
+  .btn:hover {
+    background: #2980b9;
+  }
+
+  form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  input[type="text"], input[type="number"] {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
+
+  button {
+    padding: 12px;
+    background: #27ae60;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  button:hover {
+    background: #219150;
+  }
+
+  small {
+    color: #888;
+    font-size: 12px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>{{ student.fullname }} - Payments</h2>
+
+  <ul>
+    {% for p in payments %}
+      <li>
+        <div class="payment-info">
+          {{ p.month }} - ₹{{ p.amount }}
+          <small>({{ p.date_paid }})</small>
+        </div>
+
+        {% if is_admin %}
+          <a href="{% url 'manage_payment' student.id %}?payment_id={{ p.id }}" class="btn">Edit</a>
+        {% endif %}
+      </li>
+    {% empty %}
+      <p style="text-align:center; color:#888;">No payments yet.</p>
+    {% endfor %}
+  </ul>
+
+  {% if is_admin or is_student %}
+    <h3>Add Payment</h3>
+    <form method="post">
+      {% csrf_token %}
+      <input type="text" name="month" placeholder="Month (e.g. August)" required>
+      <input type="number" step="0.01" name="amount" placeholder="Amount (₹)" required>
+      <button type="submit">Add Payment</button>
+    </form>
+  {% endif %}
+</div>
+
+<div style="margin-top:20px; text-align:center;">
+    <a href="{% url 'admin_student_list' %}" 
+       style="color:#2980b9; font-weight:600; text-decoration:none;">⬅ Back to Students</a>
+</div>
+
+<!-- Optional JS to prevent back button cached data -->
+<script>
+window.addEventListener("pageshow", function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
+</script>
+{% endblock %}
