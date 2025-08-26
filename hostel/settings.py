@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-secret-key-for-local-dev')
 DEBUG = False  # Set True during development to serve static files automatically
-ALLOWED_HOSTS = ['pavan-hostel-project.onrender.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['pavan-hostel-project.onrender.com']
 
 # Application definition
 INSTALLED_APPS = [
