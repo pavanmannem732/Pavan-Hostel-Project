@@ -2,10 +2,13 @@
 {% load static %}
 
 {% block content %}
+
 <style>
 .hero-banner {
-    background: url("../static/home/image/sai\ krishna\ hostel\ pic.jpg")
-                no-repeat center center/cover;
+    background-image: url("{% static 'images/sai_krishna_hostel_pic.jpg' %}");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
     height: 70vh;
     position: relative;
     display: flex;
@@ -49,7 +52,7 @@
     justify-content: space-around;
     padding: 40px;
     gap: 20px;
-    flex-wrap: wrap; /* ✅ Makes it responsive */
+    flex-wrap: wrap;
 }
 .card {
     background: white;
@@ -136,4 +139,6 @@ footer {
         <p>© 2025 Sai Krishna Hostel. All Rights Reserved. Website Designed by <strong>Pavan Mannem</strong></p>
     </div>
 </footer>
+
 {% endblock %}
+

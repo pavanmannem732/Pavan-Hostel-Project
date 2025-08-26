@@ -26,3 +26,5 @@ urlpatterns = [
     path("book/<str:plan>/", views.book_now, name="book_now"),
 
 ]
+
+
