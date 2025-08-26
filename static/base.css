@@ -73,3 +73,16 @@
     font-weight: 600;
     color: #00c853;
 }
+body{
+    background: linear-gradient(135deg, #6DD5FA, #FFFFFF);
+}
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    text-align: center;
+  }
+  .content {
+    padding: 10px;
+    font-size: 14px;
+  }
+}

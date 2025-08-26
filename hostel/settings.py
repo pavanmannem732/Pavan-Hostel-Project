@@ -6,7 +6,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-secret-key-for-local-dev')
 DEBUG = False  # Must be False for production
-ALLOWED_HOSTS = ['pavan-hostel-project.onrender.com']  # Only allow your Render host
+# ALLOWED_HOSTS = ['pavan-hostel-project.onrender.com']  
+ALLOWED_HOSTS = ['*'] 
 
 # Installed apps
 INSTALLED_APPS = [
@@ -22,7 +23,7 @@ INSTALLED_APPS = [
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ serves static files on Render
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
