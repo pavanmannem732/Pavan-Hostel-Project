@@ -1,2 +1,1 @@
-web: gunicorn hostel.wsgi:application
- 
+web: gunicorn hostel.wsgi
