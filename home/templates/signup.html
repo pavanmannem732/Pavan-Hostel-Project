@@ -79,7 +79,7 @@
 
         <div class="form-group">
             <label>Upload Photo</label>
-            <input type="file" name="photo">
+            <input type="file" name="photo" required>
         </div>
 
         <div class="form-group">
@@ -91,7 +91,7 @@
     </form>
 
     <!-- Admin Signup -->
-    <form id="admin-form" method="post" style="display:none;">
+    <!-- <form id="admin-form" method="post" style="display:none;">
         {% csrf_token %}
         <h2>Admin Signup</h2>
 
@@ -111,7 +111,7 @@
         </div>
 
         <button type="submit">Create Admin</button>
-    </form>
+    </form> -->
 </div>
 <footer>
     <div class="footer-container">
